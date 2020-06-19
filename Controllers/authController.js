@@ -14,32 +14,38 @@ const db = mysql.createConnection({
 
 exports.register = (req, res) => {
 
-    let { first_name, last_name, email, password, role_id } = req.body;
+    try {
+        let { first_name, last_name, email, password, role_id } = req.body;
 
-    db.query('SELECT * FROM Agents where email = ?', [email], async (err, results) => {
+        db.query('SELECT * FROM Agents where email = ?', [email], async (err, results) => {
 
-        if(err) return responseFormat.error(err, res);
+            if(err) return responseFormat.error(err, res);
 
-        if(results.length > 0) return responseFormat.error(err, res, 'Agent already exist');
+            if(results.length > 0) return responseFormat.error(err, res, 'Agent already exist');
 
-        const salt = await bcrypt.genSalt(10);
-        password = await bcrypt.hash(password, salt);
+            const salt = await bcrypt.genSalt(10);
+            password = await bcrypt.hash(password, salt);
 
-       
+        
 
-        db.query('INSERT INTO Agents SET ?', { first_name,last_name,role_id, email, password }, (err, data) => {
-            if(err) return responseFormat.error(err, res, 'Error exist');
+            db.query('INSERT INTO Agents SET ?', { first_name,last_name,role_id, email, password }, (err, data) => {
+                if(err) return responseFormat.error(err, res, 'Error exist');
 
-            // const payload = {
-            //     userId: {
-            //         id: user.id
-            //     }
-            // }
+                // const payload = {
+                //     userId: {
+                //         id: user.id
+                //     }
+                // }
 
-            return responseFormat.success(res, data, 'Successfully added user');            
-        })
+                return responseFormat.success(res, data, 'Successfully added user');            
+            })
 
-    });
+        });
+    } catch (error) {
+        responseFormat.error(err, res, err.messgge, false, 500)
+    }
+
+    
 }
 
 exports.login = async (req, res) => {
