@@ -30,11 +30,11 @@ exports.register = (req, res) => {
         db.query('INSERT INTO Agents SET ?', { first_name,last_name,role_id, email, password }, (err, data) => {
             if(err) return responseFormat.error(err, res, 'Error exist');
 
-            const payload = {
-                userId: {
-                    id: user.id
-                }
-            }
+            // const payload = {
+            //     userId: {
+            //         id: user.id
+            //     }
+            // }
 
             return responseFormat.success(res, data, 'Successfully added user');            
         })
