@@ -63,7 +63,7 @@ exports.login = async (req, res) => {
             const token = jwt.sign({ payload}, config.get('jwtSecret'), { expiresIn: config.get('jwtExpire')})
 
             
-            responseFormat.success(res, { token, userInfo: results[0] });
+            responseFormat.success(res, { token, user_info: results[0] });
         })
 
     } catch (err) {
