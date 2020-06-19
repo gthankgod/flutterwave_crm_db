@@ -1,0 +1,5 @@
+{
+    "host": "34.68.55.207",
+    "database" : "flutterwave_crm_project",
+    "jwtExpire": "7d"
+}
