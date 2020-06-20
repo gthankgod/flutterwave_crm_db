@@ -29,10 +29,10 @@ exports.register = (req, res) => {
             let role_id;
 
             db.query('SELECT role_id from agent_roles where role_name ?',[role_name], async (err, res) => {
-                if(err) return responseFormat.error(err, res, 'Error exist');
+                if(err) return responseFormat.error(err, res, 'Please put put in a valid role');
                 
                 if(res.length < 1) {
-                    return responseFormat.error('Please put put in a valid role', res, 'Please put in a valid role');
+                    return responseFormat.error('Please put put in a valid role', res, 'Please put put in a valid role');
                 }
                 
                 role_id = res[0].role_id
