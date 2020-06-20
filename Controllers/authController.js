@@ -4,6 +4,7 @@ const config = require('config');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const joi = require('joi');
 
 const db = mysql.createConnection({
     host: config.host,
@@ -50,11 +51,13 @@ exports.register = (req, res) => {
 
 exports.login = async (req, res) => {
     try {
+
+        const { error } = validateLoginRequest(req.body);
+
+        if(error) return responseFormat.error(error, res, error.message);
+
         const { email, password } = req.body;
-        if(!email || !password) {
-            err = 'Please put in an Email or Pasword';
-            return responseFormat.error(err, res)
-        }
+      
 
         db.query('SELECT * FROM Agents where email = ?', [email], async (err, results) => {
             if(err) return responseFormat.error(err, res);
@@ -76,3 +79,20 @@ exports.login = async (req, res) => {
         return responseFormat.error(err, res, 500);
     }
 };
+
+function validateLoginRequest(request) {
+    const schema = {
+        email: Joi.email().required(),
+        password: Joi.string().required()
+    }
+}
+
+
+function validateExam(exam) {
+    const schema = {
+        questions: Joi.string().required(),
+        score: Joi.string().required(),
+        mySolutions: Joi.array().required()
+    }
+    return Joi.validate(exam, schema);
+}
