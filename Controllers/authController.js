@@ -4,7 +4,7 @@ const config = require('config');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const joi = require('joi');
+const Joi = require('joi');
 
 const db = mysql.createConnection({
     host: config.host,
