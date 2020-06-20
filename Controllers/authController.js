@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
 
         const { error } = validateLoginRequest(req.body);
 
-        if(error) return responseFormat.error(error, res, error.message);
+        if(error) return responseFormat.error(error, res, 'Email / Password Format is not Valid');
 
         const { email, password } = req.body;
       
