@@ -28,14 +28,14 @@ exports.register = (req, res) => {
             password = await bcrypt.hash(password, salt);
             let role_id;
 
-            db.query('SELECT id from agent_roles where role_name = ?',[role_name], async (err, res) => {
+            db.query('SELECT id from agent_roles where role_name = ?',[role_name], async (err, result) => {
                 if(err) return responseFormat.error(err, res, 'Please put put in a valid role');
                 
                 if(res.length < 1) {
                     return responseFormat.error('Please put put in a valid role', res, 'Please put put in a valid role');
                 }
                 
-                role_id = res[0].id
+                role_id = result[0].id
 
                 console.log(role_id);
                 db.query('INSERT INTO Agents SET ?', { first_name,last_name,role_id, email, password }, (err, data) => {
