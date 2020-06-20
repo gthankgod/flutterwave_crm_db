@@ -35,7 +35,7 @@ exports.register = (req, res) => {
                     return responseFormat.error('Please put put in a valid role', res, 'Please put put in a valid role');
                 }
                 
-                role_id = res[0].role_id
+                role_id = res[0].id
             
             });
         
