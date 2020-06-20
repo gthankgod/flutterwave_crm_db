@@ -16,7 +16,7 @@ const db = mysql.createConnection({
 exports.register = (req, res) => {
 
     try {
-        let { first_name, last_name, email, password, role_id } = req.body;
+        let { first_name, last_name, email, password, role_name } = req.body;
 
         db.query('SELECT * FROM Agents where email = ?', [email], async (err, results) => {
 
@@ -26,7 +26,18 @@ exports.register = (req, res) => {
 
             const salt = await bcrypt.genSalt(10);
             password = await bcrypt.hash(password, salt);
+            let role_id;
 
+            db.query('SELECT role_id from agent_roles where role_name ?',[role_name], async (err, res) => {
+                if(err) return responseFormat.error(err, res, 'Error exist');
+                
+                if(res.length < 1) {
+                    return responseFormat.error('Please put put in a valid role', res, 'Please put in a valid role');
+                }
+                
+                role_id = res[0].role_id
+            
+            });
         
 
             db.query('INSERT INTO Agents SET ?', { first_name,last_name,role_id, email, password }, (err, data) => {
@@ -89,12 +100,15 @@ function validateLoginRequest(request) {
     return Joi.validate(request, schema);
 }
 
-
-function validateExam(exam) {
+function validateLoginRequest(request) {
     const schema = {
-        questions: Joi.string().required(),
-        score: Joi.string().required(),
-        mySolutions: Joi.array().required()
+        email: Joi.string().required(),
+        password: Joi.string(),
+        role_name: Joi.string(),
+        first_name: Joi.string().required(),
+        last_name: Joi.string().required()
+
     }
-    return Joi.validate(exam, schema);
+
+    return Joi.validate(request, schema);
 }
