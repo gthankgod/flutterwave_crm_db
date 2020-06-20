@@ -82,7 +82,7 @@ exports.login = async (req, res) => {
 
 function validateLoginRequest(request) {
     const schema = {
-        email: Joi.email().required(),
+        email: Joi.string(),
         password: Joi.string().required()
     }
 
