@@ -28,7 +28,7 @@ exports.register = (req, res) => {
             password = await bcrypt.hash(password, salt);
             let role_id;
 
-            db.query('SELECT role_id from agent_roles where role_name = ?',[role_name], async (err, res) => {
+            db.query('SELECT id from agent_roles where role_name = ?',[role_name], async (err, res) => {
                 if(err) return responseFormat.error(err, res, 'Please put put in a valid role');
                 
                 if(res.length < 1) {
