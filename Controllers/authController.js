@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     database: config.database
 });
 
-exports.register = (req, res) => {
+exports.registerAgent = (req, res) => {
 
     try {
         let { first_name, last_name, email, password, role_name } = req.body;
@@ -62,7 +62,7 @@ exports.register = (req, res) => {
     
 }
 
-exports.login = async (req, res) => {
+exports.loginAgent = async (req, res) => {
     try {
 
         const { error } = validateLoginRequest(req.body);
@@ -93,6 +93,13 @@ exports.login = async (req, res) => {
     }
 };
 
+exports.deleteAgent = async (req, res) => {
+
+    db.query('SELECT role_id from agent_roles where email = ?', [email], async (req, res) => {
+
+    })
+}
+
 function validateLoginRequest(request) {
     const schema = {
         email: Joi.string(),
@@ -102,7 +109,7 @@ function validateLoginRequest(request) {
     return Joi.validate(request, schema);
 }
 
-function validateLoginRequest(request) {
+function validateRegisterRequest(request) {
     const schema = {
         email: Joi.string().required(),
         password: Joi.string(),

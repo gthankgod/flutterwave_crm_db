@@ -11,9 +11,6 @@ module.exports = function (req, res, next) {
     try {
         jwt.verify(token, config.get("jwtSecret"), (err, decoded) => {
 
-            // if(err.name == 'TokenExpiredError') {
-            //     return res.status(400).json({status: false, msg: 'Token Expired', data: null, statusCode: 400 });    
-            // }
             req.user = decoded.user;
             next();
         });
