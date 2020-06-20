@@ -36,21 +36,23 @@ exports.register = (req, res) => {
                 }
                 
                 role_id = res[0].id
+
+                console.log(role_id);
+                db.query('INSERT INTO Agents SET ?', { first_name,last_name,role_id, email, password }, (err, data) => {
+                    if(err) return responseFormat.error(err, res, 'Error exist');
+
+                    // const payload = {
+                    //     userId: {
+                    //         id: user.id
+                    //     }
+                    // }
+
+                    return responseFormat.success(res, data, 'Successfully added user');            
+                })
             
             });
         
-
-            db.query('INSERT INTO Agents SET ?', { first_name,last_name,role_id, email, password }, (err, data) => {
-                if(err) return responseFormat.error(err, res, 'Error exist');
-
-                // const payload = {
-                //     userId: {
-                //         id: user.id
-                //     }
-                // }
-
-                return responseFormat.success(res, data, 'Successfully added user');            
-            })
+            
 
         });
     } catch (error) {
