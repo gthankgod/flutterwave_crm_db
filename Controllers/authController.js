@@ -85,6 +85,8 @@ function validateLoginRequest(request) {
         email: Joi.email().required(),
         password: Joi.string().required()
     }
+
+    return Joi.validate(request, schema);
 }
 
 
