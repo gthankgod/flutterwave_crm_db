@@ -1,3 +1,3 @@
 module.exports = (app) => {
-    app.use('/auth', require('./agents'));
+    app.use('/agents', require('./agents'));
 }
